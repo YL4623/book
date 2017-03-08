@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>book</title>
+		<style>
+		body{
+			overflow: hidden; /*隐藏溢出，超出部分自动隐藏*/
+			margin: 0;
+			padding: 0;
+		}
+		#book{ /*href="."表示当前页*/
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin-left: -325px; /*margin的负值，叫负外补丁，4个方向都可以有负值，就是缩小容器的外围。一般配合position使用。比如一个水平绝对居中的用法。
+			.box { width:960px; height:50px; margin-left:-480px; padding:0; position:absolute; left:50%; top:0; z-index:16; }
+			这里就用到了 margin-left:-480px; 是该容器一半的宽度，从而绝对居中。*/
+			margin-top: -300px;
+			height: 600px;
+			width: 750px;
+			transform-style: preserve-3d;/*transform-style 属性规定如何在 3D 空间中呈现被嵌套的元素。*/
+			transform: perspective(1000px) rotateX(60deg) rotateY(0deg);
+			transition: 1s;/*transition从效果上看是一种平滑过渡的动画，本质上是在线性时间内将属性从开始值过渡到结束值。例如获得焦点，点击鼠标等动作导致CSS属性值的变化是瞬间完成的，感觉有点生硬。用transition以指定在某时间段内将属性值平滑过渡，增强用户体验。*/
+		}
+		#book:hover{
+			transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+		}
+		#book div{
+			height: 600px;
+			width: 750px;
+			text-align: center;
+			line-height: 600px;
+			position: absolute;
+			left: 0;
+			top: 0;
+			transform-origin: left;/*变形原点，也就是该元素围绕着那个点变形或旋转，该属性只有在设置了transform属性的时候起作用,其中 left,center right是水平方向取值，对应的百分值为left=0%;center=50%;right=100%而top center bottom是垂直方向的取值，其中top=0%;center=50%;bottom=100%;如果只取一个值，表示垂直方向值不变。*/
+			transition: 1s;
+		}
+		#book div:nth-of-type(odd){
+			background: orange;
+		}
+		#book div:nth-of-type(even){
+			background: orange;
+		}
+		#book:after{
+			content: "";
+			position: absolute;
+			width: 600px;
+			height: 5px;
+			background: rgba(0,0,0,0,8);
+			left: 75px;
+			z-index: -2;
+			bottom: -10px;
+			border-radius: 70%;/*border-radius: 1-4 length|% / 1-4 length|%;
+1-4指的是radius的四个值，length和%指的是值的单位。
+写过border的人都知道border可以带四个参数分别设置四个边框（上左下右的顺序），同样的，border-radius也可以带四个参数，并且以顺时针的方向解析，上左，上右，下右，下左：*/
+			box-shadow: 0px 0px 25px 25px rgba(0,0,0,0,8);
+		}
+
+
+	</style>
+	<script>
+     	window.onload=function(){
+     		var book=document.getElementById("book");
+     		var pages=book.getElementsByTagName("div");
+     		var pageNumber=4,rota=-180;
+     		book.onclick=function(){
+     			book.style.left="65%";
+     			pages[pageNumber].style.transform="rotateY("+rota+"deg)";
+     			pageNumber--;
+     			rota+=10;
+     			if (pageNumber<0) {
+     				for(var i=0;i<pages.length;i++){
+     					pages[i].style.transform="rotateY(0deg)";
+     				}
+     				book.style.left="50%";
+     				pageNumber=4;
+     				rota=-180;
+     			}
+     		}
+     	}		
+	</script>
+</head>
+    <body>
+		<div id="book">
+			<div>5</div>
+			<div>4</div>
+			<div>3</div>
+			<div>2</div>
+			<div>1</div>
+		</div>
+	</body>
+</html>
